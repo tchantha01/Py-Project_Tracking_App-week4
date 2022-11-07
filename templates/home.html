@@ -1,22 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Tracking App</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block main %}
 
-    <h1>Testing 1,2,3,4!</h1>
-    <form action="{{ url_for('add_team') }}" method="POST">
-        {{ team_form.csrf_token() }}
-        {{ team_form.team_name.label }}
-        {{ team_form.team_name }}
-        {{ team_form.submit.label }}
-        {{ team_form.submit }}
+    <h1>Who's Doing What?</h1>
 
+<div class="form-container">
+    <h3>Add Teams</h3>
+        <form action="{{ url_for('add_team') }}" method="POST">
+            {{ team_form.csrf_token() }}
+        <div>    
+            <div class="form-group mt-3">
+                {{ team_form.team_name.label }}
+                {{ team_form.team_name }}
+            </div>
+            
+            <div class="form-group mt-3">
+                {{ team_form.submit.label }}
+                {{ team_form.submit }}
+            </div>    
+        </div>
+        </form>
+</div>
+
+<div class="form-container mt-3">
+    <h3>Add Project</h3>
+    <form action="{{ url_for("add_project") }}" method="POST">
+            {{ project_form.csrf_token() }}
+        <div>
+            <div class="form-group mt-3"> 
+                {{ project_form.project_name.label }}
+                {{ project_form.project_name }}
+            </div>
+
+            <div class="form-group mt-3">
+                {{ project_form.description.label }}
+                {{ project_form.description }}
+            </div>
+
+            <div class="form-group mt-3">
+                {{ project_form.completed.label }}
+                {{ project_form.completed }}
+            </div>
+            
+            <div class="form-group mt-3">
+                {{ project_form.team_selection.label }}
+                {{ project_form.team_selection }}
+            </div>   
+            
+            <div class="form-group mt-3">
+                {{ project_form.submit.label }}
+                {{ project_form.submit }}
+            </div>    
+        </div>    
     </form>
+</div>        
 
-</body>
-</html>
+{% endblock %}
