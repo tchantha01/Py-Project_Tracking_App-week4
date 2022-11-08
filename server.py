@@ -81,6 +81,25 @@ def update_team(team_id):
             return redirect(url_for("home"))
     else: 
         return render_template("update_team.html", title = f"Update {team.team_name}", page = "teams", team = team, form = form)    
+
+def delete_team(team_id):
+    
+    form = TeamForm()
+    team = Team.query.get(team_id)
+    
+    if request.method == "POST":
+        if form.validate_on_submit():
+            team.team_name = form.team_name.data
+            db.session.delete(team)
+            db.session.commit()
+            return redirect(url_for("teams"))
+        else:
+            return redirect(url_for("home"))
+    else:
+        return render_template("update_teams.html", title = f"Deleted {team.team_name}", page = "team", team = team, form = form)    
+    
+    
+
     
 @app.route("/update_project/<project_id>", methods=["GET", "POST"])  
 def update_project(project_id):
