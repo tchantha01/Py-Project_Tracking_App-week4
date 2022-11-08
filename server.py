@@ -85,7 +85,7 @@ def update_team(team_id):
 @app.route("/update_project/<project_id>", methods=["GET", "POST"])  
 def update_project(project_id):
     
-    form = ProjectForm
+    form = ProjectForm()
     form.update_teams(User.query.get(user_id).teams)
     project = Project.query.get(project_id) 
     
@@ -102,7 +102,7 @@ def update_project(project_id):
         else:
             return redirect(url_for("home"))
     else:
-        return render_template("update_project", title = f"Update {project.project_name}", page = "projects", project = project, form = form)
+        return render_template("update_project.html", title = f"Update {project.project_name}", page = "projects", project = project, form = form)
          
     
 
