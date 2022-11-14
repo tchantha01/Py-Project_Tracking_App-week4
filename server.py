@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, flash
 from forms import TeamForm, ProjectForm
 from model import db, User, Team, Project, connect_to_db
 
@@ -124,7 +124,54 @@ def update_project(project_id):
         return render_template("update_project.html", title = f"Update {project.project_name}", page = "projects", project = project, form = form)
          
     
-
+@app.route("/delete_project/<project_id>")
+def delete_project(project_id):
+    
+    project_to_delete = Project.query.get(project_id)
+    
+    try:
+        db.session.delete(project_to_delete)
+        db.session.commit()
+        
+        flash("Project deleted successfully.")
+        
+        user = User.query.get(user_id)
+        projects = user.get_all_projects()
+        
+        return render_template("projects.html", title = "Projects", page = "projects", projects = projects)
+    
+    except:
+        flash("Issue deleting project, please try again.")
+        
+        user = User.query.get(user_id)
+        projects = user.get_all_projects()
+        
+        return render_template("projects.html", title = "Projects", page = "projects", projects = projects)
+    
+@app.route("/delete_team/<team_id>")   
+def delete_team(team_id):
+    
+    team_to_delete = Team.query.get(team_id)
+    
+    try:
+        db.session.delete(team_to_delete) 
+        db.session.commit()    
+        
+        flash("Team deleted successfully.")
+        
+        user = User.query.get(user_id)
+        
+        return render_template("teams.html", title = "Teams", page = "teams", teams = user.teams)
+    
+    except:
+        flash("Issue deleting team, please try again.")
+        
+        user = User.query.get(user_id)
+        
+        return render_template("teams.html", title = "Teams", page = "teams", teams = user.teams)
+    
+    
+    
 
 
 
